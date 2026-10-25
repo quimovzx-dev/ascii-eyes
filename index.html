@@ -154,7 +154,7 @@ function draw(nowMs) {
       if (ry < 0 || ry >= rows) continue;
       const c = RAIN_CHARS[Math.floor(hash(drop.col, ry, Math.floor(t * 2)) * RAIN_CHARS.length)];
       const fade = 1 - k / drop.len;
-      ctx.fillStyle = 'rgba(70, 140, 120, ' + (0.16 * fade) + ')';
+      ctx.fillStyle = 'rgba(86, 168, 144, ' + (0.3 * fade) + ')';
       ctx.fillText(c, (drop.col + 0.5) * cellW, (ry + 0.5) * cellH);
     }
   }
@@ -188,29 +188,29 @@ function draw(nowMs) {
         if (inside) {
           const dx = px - icx, dy = py - icy;
           const d2 = dx * dx + dy * dy;
-          const flicker = 0.82 + 0.18 * hash(col, row, Math.floor(t * 8));
+          const flicker = 0.9 + 0.1 * hash(col, row, Math.floor(t * 8));
           const word = wordMap.get(col + ',' + row);
           if (d2 <= pupilR * pupilR) {
             const c = PUPIL_CHARS[Math.floor(hash(col, row, Math.floor(t * 1.5)) * PUPIL_CHARS.length)];
-            ctx.fillStyle = 'rgba(214, 255, 233, ' + (0.95 * flicker) + ')';
+            ctx.fillStyle = 'rgba(232, 255, 242, ' + (1.0 * flicker) + ')';
             ctx.fillText(c, px, py);
           } else if (d2 <= irisR * irisR) {
             const radial = Math.sqrt(d2) / irisR;
-            const ring = radial > 0.82 ? 0.55 : 1;
+            const ring = radial > 0.82 ? 0.72 : 1;
             if (word) {
-              ctx.fillStyle = 'rgba(240, 255, 249, ' + (0.95 * flicker * ring) + ')';
+              ctx.fillStyle = 'rgba(245, 255, 250, ' + (1.0 * flicker * ring) + ')';
               ctx.fillText(word, px, py);
             } else {
               const slot = Math.floor(t * 2.5);
               const c = IRIS_CHARS[Math.floor(hash(col, row, slot) * IRIS_CHARS.length)];
-              const bright = 0.55 + 0.4 * (1 - radial);
-              ctx.fillStyle = 'rgba(115, 168, 154, ' + (bright * flicker * ring) + ')';
+              const bright = 0.78 + 0.22 * (1 - radial);
+              ctx.fillStyle = 'rgba(150, 208, 188, ' + (bright * flicker * ring) + ')';
               ctx.fillText(c, px, py);
             }
           } else {
             if (hash(col, row, 3) < 0.24) {
               const c = WHITE_CHARS[Math.floor(hash(col, row, 91) * WHITE_CHARS.length)];
-              ctx.fillStyle = 'rgba(96, 138, 126, ' + (0.5 * flicker) + ')';
+              ctx.fillStyle = 'rgba(140, 190, 172, ' + (0.8 * flicker) + ')';
               ctx.fillText(c, px, py);
             }
           }
@@ -221,15 +221,15 @@ function draw(nowMs) {
           else if (Math.abs(u) > 0.88) c = u < 0 ? '<' : '>';
           else if (nearTop) c = u < 0 ? '/' : '\\';
           else c = u < 0 ? '\\' : '/';
-          const flicker = 0.85 + 0.15 * hash(col, row, Math.floor(t * 6));
-          ctx.fillStyle = 'rgba(178, 226, 210, ' + (0.92 * flicker) + ')';
+          const flicker = 0.92 + 0.08 * hash(col, row, Math.floor(t * 6));
+          ctx.fillStyle = 'rgba(205, 242, 226, ' + (1.0 * flicker) + ')';
           ctx.fillText(c, px, py);
         }
       }
     }
   }
 
-  ctx.fillStyle = 'rgba(115, 168, 154, 0.55)';
+  ctx.fillStyle = 'rgba(150, 208, 188, 0.85)';
   ctx.font = '400 ' + Math.max(9, Math.round(cellH * 0.72)) + 'px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
   ctx.textAlign = 'left';
   ctx.fillText('$ ./eyes --watch', cellW * 0.6, cellH * 0.7);
